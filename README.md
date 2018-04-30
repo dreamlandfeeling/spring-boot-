@@ -1,4 +1,4 @@
-##项目简介
+## 项目简介
 
 以springboot为基础的初级商城项目
 
@@ -8,7 +8,7 @@
 
 技术：springboot+mybatis+redis+freemarker+solr+druid+
 
-##项目部署
+## 项目部署
 1.	修改application.properties 的数据库配置
 2.	图片上传路径默认IMG.UPLOAD.PATH=D:/test/
 3.	前台部分需要redis  如果redis有密码也在application.properties中修改(默认windows下没有密码)
@@ -18,7 +18,7 @@
 前台第一次登录的时候会比较慢可能要等20秒。。这里还不懂该怎么改卡在redis存用户信息的时候
 还有就是数据库里的商品图片路径都使访问不到的。。你自己添加商品把
 
-##操作过程
+## 操作过程
 后台：首页-商品添加——商品搜索——商品增删改查-修改前台轮播图的内容-导入商品solr索引
 
 前台：首页-商品搜索-商品详情-加入购物车-提交订单
