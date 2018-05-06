@@ -1,6 +1,7 @@
 package com.xin.manager.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.xin.manager.dto.EasyUITree;
 import com.xin.manager.dto.PageBean;
 import com.xin.manager.dto.Result;
@@ -77,10 +78,18 @@ public class ItemServiceImpl implements ItemService {
         }
         return ResultFactory.getSuccessResult();
     }
-
+    @Transactional
     @Override
     public Result updateToChanged(TbItem tbItem) {
         tbItemMapper.updateToChanged(tbItem);
+        TbItem item = tbItemMapper.findItemById(tbItem.getId());
+        try {
+            solrService.addOrDeleteByItem(item);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        }
         return ResultFactory.getSuccessResult();
     }
     @Transactional
@@ -105,7 +114,7 @@ public class ItemServiceImpl implements ItemService {
         return pageData;
     }
     //@Override
-    //public PageBean findItemByPage(int page, int rows) {
+    //public PageBean findContentByPage(int page, int rows) {
     //    //设置分页信息，分别是当前页数和每页显示的总记录数【记住：必须在mapper接口中的方法执行之前设置该分页信息】
     //    PageHelper.startPage(page, rows);
     //
@@ -143,7 +152,7 @@ public class ItemServiceImpl implements ItemService {
     public Result listItemCat() {
         long parentId = 0;//一级树的父id
         List<TbItemCat> list = tbItemCatMapper.selectItemCat();
-        ArrayList<EasyUITree> trees = new ArrayList<EasyUITree>(list.size());
+        List<EasyUITree> trees = new ArrayList<EasyUITree>(list.size());
         //查询
         for (TbItemCat cat : list) {
             if (cat.getParentId().longValue() == parentId) {

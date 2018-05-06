@@ -51,7 +51,6 @@ public class ItemSqlProvider {
         return new SQL() {
             {
                 SELECT("* from tb_item");
-                WHERE("status = 1");
                 Object obj = params.get("search");
                 if(obj!=null){
                     String str = obj.toString();
@@ -69,7 +68,6 @@ public class ItemSqlProvider {
         return new SQL() {
             {
                 SELECT("count(*) from tb_item");
-                WHERE("status = 1");
                 Object obj = params.get("search");
                 if(obj!=null){
                     String str = obj.toString();

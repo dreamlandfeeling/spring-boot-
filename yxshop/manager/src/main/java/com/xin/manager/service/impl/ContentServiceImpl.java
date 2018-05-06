@@ -28,7 +28,7 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public Result findByPrimaryKey(long id) {
         List<TbContentCategory> list = tbContentCategoryMapper.findByPrimaryKey(id);
-        ArrayList<EasyUITree> trees = new ArrayList<>();
+        List<EasyUITree> trees = new ArrayList<>();
         for (TbContentCategory cat : list) {
             EasyUITree tree = new EasyUITree();
             tree.setId(cat.getId());
@@ -57,6 +57,7 @@ public class ContentServiceImpl implements ContentService {
         TbContentCategory parentCat = new TbContentCategory();
         parentCat.setId(cat.getParentId());
         parentCat.setIsParent(TbContentCategory.ISPARENT_TRUE);
+        parentCat.setUpdated(new Date());
         tbContentCategoryMapper.updateToChanged(parentCat);
         long id = tbContentCategoryMapper.findMaxContentCatId() + 1;
         cat.setId(id);
@@ -95,7 +96,7 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    public PageBean findItemByPage(int page, int rows,long categoryId) {
+    public PageBean findContentByPage(int page, int rows, long categoryId) {
         //设置分页信息，分别是当前页数和每页显示的总记录数【记住：必须在mapper接口中的方法执行之前设置该分页信息】
         PageHelper.startPage(page, rows);
 

@@ -22,6 +22,10 @@ public interface TbItemMapper {
     @Results({
             @Result(property = "sellPoint",column = "sell_point")
     })
+
+    @Select("select * from tb_item where id = #{id}")
+    TbItem findItemById(Long id);
+
     @Select("select * from tb_item where status = 1")
     List<TbItem> findAll();
 

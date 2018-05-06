@@ -2,8 +2,11 @@ package com.xin.manager.utils;
 
 public class StringUtils {
 
+    public static boolean isBlank(String str){
+        return org.apache.commons.lang3.StringUtils.isBlank(str);
+    }
     public static boolean isNotBlank(String str){
-        return org.apache.commons.lang3.StringUtils.isNotBlank(str);
+        return !isBlank(str);
     }
 
     public static boolean isNotBlank(Byte bt){

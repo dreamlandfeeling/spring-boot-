@@ -10,6 +10,9 @@
 
 solr 地址https://github.com/dreamlandfeeling/solr 因为有300m所以独立出来好了
 
+可暂时关闭solr功能  在solr索引库管理那有关闭solr.因为商品的增删改会同步更新索引，如果没有启动solr
+启动增删改会卡顿一会，并且程序内报错
+
 ## 项目部署
 1.	修改application.properties 的数据库配置
 2.	图片上传路径默认IMG.UPLOAD.PATH=D:/test/

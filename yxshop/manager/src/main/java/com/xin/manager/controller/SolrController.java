@@ -22,6 +22,12 @@ public class SolrController {
         return JSON.toJSONString(ResultFactory.getSuccessResult());
     }
 
+    @PostMapping("/status")
+    public String status() throws IOException, SolrServerException {
+        solrService.status();
+        return JSON.toJSONString(ResultFactory.getSuccessResult());
+    }
+
     /**
      * 根据id删除索引
      * @param id
@@ -54,15 +60,6 @@ public class SolrController {
         return JSON.toJSONString(ResultFactory.getSuccessResult());
     }
 
-    /**
-     * 综合查询: 在综合查询中, 有按条件查询, 条件过滤, 排序, 分页, 高亮显示, 获取部分域信息
-     * @return
-     */
-    @RequestMapping("search")
-    public String search() throws IOException, SolrServerException {
-        Result search = solrService.search();
-        return JSON.toJSONString(ResultFactory.getSuccessResult(search));
-    }
 
 }
 

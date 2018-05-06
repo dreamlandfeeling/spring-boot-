@@ -1,5 +1,6 @@
 package com.xin.manager.service;
 
+import com.github.pagehelper.PageInfo;
 import com.xin.manager.dto.PageBean;
 import com.xin.manager.dto.Result;
 import com.xin.manager.model.TbItem;
@@ -24,7 +25,7 @@ public interface ItemService {
     Result delete(long id);
 
     PageBean findItemByPage(Map<String,Object> params);
-    //PageBean findItemByPage(int page, int rows);
+    //PageBean findContentByPage(int page, int rows);
 
     Result batchDelete(Long[] ids);
 }

@@ -7,6 +7,7 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -17,12 +18,14 @@ import java.util.Arrays;
 @Aspect
 @Component
 public class WebLogAspect {
+
     private Logger logger = LogManager.getLogger(this.getClass());
 
     ThreadLocal<Long> startTime = new ThreadLocal<>();
 
     @Pointcut("execution(public * com.xin.manager.service..*.*(..))")
     public void webLog(){}
+
 
     @Before("webLog()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {

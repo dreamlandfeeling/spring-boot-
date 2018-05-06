@@ -2,6 +2,7 @@ package com.xin.manager.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.github.pagehelper.PageInfo;
 import com.sun.tracing.dtrace.ModuleAttributes;
 import com.xin.manager.dto.*;
 import com.xin.manager.model.TbItem;
@@ -43,7 +44,7 @@ public class ItemController {
 
     //@GetMapping("/")
     //public String listItem(int page,int rows){
-    //    PageBean pageBean = itemService.findItemByPage(page, rows);
+    //    PageBean pageBean = itemService.findContentByPage(page, rows);
     //    return JSON.toJSONString(pageBean);
     //}
 

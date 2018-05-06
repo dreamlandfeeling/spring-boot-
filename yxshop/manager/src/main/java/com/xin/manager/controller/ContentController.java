@@ -23,8 +23,8 @@ public class ContentController {
      * @return 需要返回总条数和当前页的数据
      */
     @GetMapping("/")
-    public String listItem(int page,int rows,long categoryId){
-        PageBean pageBean = contentService.findItemByPage(page, rows,categoryId);
+    public String listContent(int page,int rows,long categoryId){
+        PageBean pageBean = contentService.findContentByPage(page, rows,categoryId);
         return JSON.toJSONString(pageBean);
     }
     @GetMapping("cat")

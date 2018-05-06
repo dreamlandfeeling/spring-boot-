@@ -15,5 +15,5 @@ public interface ContentService {
     Result updateContentCatToChanged(TbContentCategory tbContentCategory);
     Result deleteContent(long id);
     Result deleteContentCat(long id);
-    PageBean findItemByPage(int page, int rows,long categoryId);
+    PageBean findContentByPage(int page, int rows, long categoryId);
 }
