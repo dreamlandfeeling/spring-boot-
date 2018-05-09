@@ -13,6 +13,7 @@
             <span id="loginbar" style="margin-right: 15px;">
 	      	    ${username}
       	    </span>
+            <a href="/user/layout">退出</a>
         <#else>
             <span id="loginbar" style="margin-right: 15px;">
                 <a id="toLogin" href="/user/login">请登录</a>

@@ -20,9 +20,6 @@
         function next(page){
             if(page>0&&page<=${search.totalPages}){
                 var keyword = '${search.query}';
-                // $.get("/search/",params,function (data) {
-                //     $("#body").html(data);
-                // },"html");
                 window.location.href="http://localhost:8081/search/?keyword="+keyword+"&page="+page;
             }
         }
@@ -31,7 +28,7 @@
 <body class="body">
 <!-- header start -->
 <#include "commons/header.ftl" />
-<#include "commons/mainmenu.ftl" />
+
 <!-------面包线 linknav--------->
 <#--<div class="linknav">-->
     <#--<div class="schArticle">-->
@@ -92,50 +89,7 @@
         </div>
 
     </div>
-    <div class="left-box">
-        <div class="catlist" id="cateall">
-            <div class="ct"><h2>在结果中筛选</h2></div>
-            <div class="cm">
-                <div class="catitem" style="border-top-width: 0px;"><h3><b></b><a
-                        href="/productlist/search/?categoryId=8&amp;keyword=%E6%9C%88%E9%A5%BC&amp;o=saleNum%3Adesc"
-                            class="">生鲜食品<span>（1）</span></a></h3>
-                    <ul>
-                        <li>
-                            <a href="/productlist/search/?categoryId=57&amp;keyword=%E6%9C%88%E9%A5%BC&amp;o=saleNum%3Adesc">蛋品（1）</a>
-                        </li>
-                        <li>
-                            <a href="/productlist/search/?categoryId=292&amp;keyword=%E6%9C%88%E9%A5%BC&amp;o=saleNum%3Adesc">&nbsp;&nbsp;&nbsp;&nbsp;松花蛋/咸鸭蛋（1）</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="catitem"><h3><b></b><a
-                        href="/productlist/search/?categoryId=6&amp;keyword=%E6%9C%88%E9%A5%BC&amp;o=saleNum%3Adesc"
-                        class="">休闲食品<span>（35）</span></a></h3>
-                    <ul>
-                        <li>
-                            <a href="/productlist/search/?categoryId=44&amp;keyword=%E6%9C%88%E9%A5%BC&amp;o=saleNum%3Adesc">糖果/巧克力（2）</a>
-                        </li>
-                        <li>
-                            <a href="/productlist/search/?categoryId=238&amp;keyword=%E6%9C%88%E9%A5%BC&amp;o=saleNum%3Adesc">&nbsp;&nbsp;&nbsp;&nbsp;巧克力（2）</a>
-                        </li>
-                        <li>
-                            <a href="/productlist/search/?categoryId=7321&amp;keyword=%E6%9C%88%E9%A5%BC&amp;o=saleNum%3Adesc">月饼（33）</a>
-                        </li>
-                        <li>
-                            <a href="/productlist/search/?categoryId=7325&amp;keyword=%E6%9C%88%E9%A5%BC&amp;o=saleNum%3Adesc">&nbsp;&nbsp;&nbsp;&nbsp;冰皮月饼（1）</a>
-                        </li>
-                        <li>
-                            <a href="/productlist/search/?categoryId=7331&amp;keyword=%E6%9C%88%E9%A5%BC&amp;o=saleNum%3Adesc">&nbsp;&nbsp;&nbsp;&nbsp;其他月饼（21）</a>
-                        </li>
-                        <li>
-                            <a href="/productlist/search/?categoryId=7381&amp;keyword=%E6%9C%88%E9%A5%BC&amp;o=saleNum%3Adesc">&nbsp;&nbsp;&nbsp;&nbsp;月饼券（11）</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
 
-    </div>
   <#include "commons/footer.ftl" />
     <script type="text/javascript" src="/js/common.js?v=20160713"></script>
     <script type="text/javascript" src="/js/cart.js?v=20160713"></script>

@@ -1,9 +1,7 @@
 package com.xin.manager.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.github.pagehelper.PageInfo;
-import com.sun.tracing.dtrace.ModuleAttributes;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.xin.manager.dto.*;
 import com.xin.manager.model.TbItem;
 import com.xin.manager.service.ItemService;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -39,14 +36,10 @@ public class ItemController {
     public String listItem(@RequestParam Map<String,Object> params){
         Query query = new Query(params);
         PageBean pageBean = itemService.findItemByPage(query);
-        return JSON.toJSONString(pageBean);
+        List rows = pageBean.getRows();
+        return JSON.toJSONString(pageBean, SerializerFeature.DisableCircularReferenceDetect);
     }
 
-    //@GetMapping("/")
-    //public String listItem(int page,int rows){
-    //    PageBean pageBean = itemService.findContentByPage(page, rows);
-    //    return JSON.toJSONString(pageBean);
-    //}
 
     /**
      * 商品类别列表
@@ -85,7 +78,6 @@ public class ItemController {
         String fileName = file.getOriginalFilename();
         fileName = UUID.randomUUID()+fileName.substring(fileName.indexOf("."));
         byte[] bytes = file.getBytes();
-        //String savePath = this.getClass().getClassLoader().getResource("static"+filePath).getPath();
         FileUtils.saveFile(bytes,fileName,filePath+fileLoadPath);
         UploadResult result = UploadResult.ok(fileLoadPath+fileName);
         return JSON.toJSONString(result);
@@ -122,7 +114,6 @@ public class ItemController {
     @DeleteMapping("/batch")
     public String deleteItems(@RequestBody String ids){
         ids = StringUtils.resolveJson(ids);
-        System.err.println(ids);
         String[] split = ids.split("%2C");
         Long[] longs = new Long[split.length];
         for (int i = 0; i < split.length; i++) {

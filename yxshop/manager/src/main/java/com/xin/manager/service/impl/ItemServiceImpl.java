@@ -2,10 +2,7 @@ package com.xin.manager.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.xin.manager.dto.EasyUITree;
-import com.xin.manager.dto.PageBean;
-import com.xin.manager.dto.Result;
-import com.xin.manager.dto.ResultFactory;
+import com.xin.manager.dto.*;
 import com.xin.manager.mapper.TbItemCatMapper;
 import com.xin.manager.mapper.TbItemDescMapper;
 import com.xin.manager.mapper.TbItemMapper;
@@ -113,17 +110,6 @@ public class ItemServiceImpl implements ItemService {
         pageData.setRows(allItems);
         return pageData;
     }
-    //@Override
-    //public PageBean findContentByPage(int page, int rows) {
-    //    //设置分页信息，分别是当前页数和每页显示的总记录数【记住：必须在mapper接口中的方法执行之前设置该分页信息】
-    //    PageHelper.startPage(page, rows);
-    //
-    //    List<TbItem> allItems = tbItemMapper.findAll();        //全部商品
-    //    long countNums = tbItemMapper.countItem();            //总记录数
-    //    PageBean<TbItem> pageData = new PageBean<>(page, rows, (int)countNums);
-    //    pageData.setRows(allItems);
-    //    return pageData;
-    //}
     @Transactional
     @Override
     public Result batchDelete(Long[] ids) {

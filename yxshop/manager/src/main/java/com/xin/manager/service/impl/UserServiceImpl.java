@@ -15,7 +15,6 @@ public class UserServiceImpl implements UserService{
     @Override
     public TbUser selectByUsernameAndPassword(String username, String password) {
         password = MD5Utils.md5(password);
-        System.err.println(password);
         TbUser tbUser = tbUserMapper.selectByUsernameAndPassword(username, password);
         return tbUser;
     }

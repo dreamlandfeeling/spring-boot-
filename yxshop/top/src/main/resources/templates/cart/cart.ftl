@@ -20,24 +20,29 @@
 <script type="text/javascript" src="/js/common.js"></script>
 <script>
     function changItemCount(id,change) {
-        var num=$('#item_count_'+id).val();
-        var newCount =parseInt(num)+parseInt(change);
+        var oldCount=$('#item_count_'+id).val();
+        var newCount =parseInt(oldCount)+parseInt(change);
         if(newCount<1 || newCount>1000){
             return;
         }
         $('#item_count_'+id).val(newCount);
-        var price= parseInt($('#item_price_'+id).html());
-        $('#total_price_'+id).html(newCount*price);
-        $('#totalMoney').html(parseInt($('#totalMoney').html())+price);
+        changeTotalMoney(id,oldCount,newCount);
         var params = {'id':id,'num':newCount};
         $.ajax({"url":"/cart/"+id,data:params,"type":"put"});
     }
     function deleteItem(id) {
         if(confirm("是否删除商品")){
+            var oldCount=$('#item_count_'+id).val();
+            changeTotalMoney(id,oldCount,0);
             $.ajax({"url":"/cart/"+id,data:{"id":id},"type":"delete"});
-            // document.location.reload();
             $("#cart_"+id).remove();
+
         }
+    }
+    function changeTotalMoney(id,oldCount,newCount) {
+        var price= parseInt($('#item_price_'+id).html());
+        $('#total_price_'+id).html(newCount*price);
+        $('#totalMoney').html(parseInt($('#totalMoney').html())+(newCount-oldCount)*price);
     }
     function createOrder() {
         var ids= $("input[type='checkbox']");
@@ -48,6 +53,10 @@
                 params.push($id.val());
             }
         });
+        if(params.length==0){
+            alert("至少选择一个商品");
+            return;
+        }
         var idsStr = params.join(",");
         $('#ids').val(idsStr);
         $('#cartForm').submit();
@@ -144,7 +153,7 @@
         </div>
         <div class="cartTotalItem">
           <span id="all_shopePrice">（不含运费）</span>&nbsp;&nbsp;&nbsp;&nbsp;商品总计：
-          <span class="cartPrice" >¥<span id="totalMoney">${totalPrice?c!}</span>
+          <span class="cartPrice" >¥<span id="totalMoney">${totalPrice!?c}</span>
           </span>
         </div>
       </div>

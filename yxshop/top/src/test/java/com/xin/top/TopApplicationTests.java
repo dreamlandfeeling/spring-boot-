@@ -16,10 +16,6 @@ public class TopApplicationTests {
 	private TbContentMapper tbContentMapper;
 	@Test
 	public void contextLoads() {
-		List<TbContent> list = tbContentMapper.findAll();
-		for (TbContent tbContent : list) {
-			System.out.println(tbContent);
-		}
 	}
 
 }

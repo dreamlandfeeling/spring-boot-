@@ -29,7 +29,7 @@ public class ContentController {
     }
     @GetMapping("cat")
     public String listContentCat(@RequestParam(defaultValue = "0") long id){
-        Result result = contentService.findByPrimaryKey(id);
+        Result result = contentService.findByParentId(id);
         return JSON.toJSONString(result.getData());
     }
     @PostMapping("/")

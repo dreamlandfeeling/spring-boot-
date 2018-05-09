@@ -26,15 +26,14 @@ public class ContentServiceImpl implements ContentService {
     private TbContentCategoryMapper tbContentCategoryMapper;
 
     @Override
-    public Result findByPrimaryKey(long id) {
-        List<TbContentCategory> list = tbContentCategoryMapper.findByPrimaryKey(id);
+    public Result findByParentId(long id) {
+        List<TbContentCategory> list = tbContentCategoryMapper.findByParentId(id);
         List<EasyUITree> trees = new ArrayList<>();
         for (TbContentCategory cat : list) {
             EasyUITree tree = new EasyUITree();
             tree.setId(cat.getId());
             tree.setText(cat.getName());
-            List<TbContentCategory> children = tbContentCategoryMapper.findByPrimaryKey(cat.getId());
-            if(children!=null&&children.size()>0){
+            if(cat.getIsParent()){
                 tree.setState(EasyUITree.STATE_CLOSED);
             }
             trees.add(tree);
@@ -44,21 +43,35 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public Result insertContent(TbContent tbContent) {
+        complementContent(tbContent);
+        tbContentMapper.insertSelective(tbContent);
+        return ResultFactory.getSuccessResult();
+    }
+
+    public void complementContent(TbContent tbContent) {
         tbContent.setId(tbContentMapper.findMaxId()+1);
         tbContent.setCreated(new Date());
         tbContent.setUpdated(new Date());
-        tbContentMapper.insertSelective(tbContent);
-        return ResultFactory.getSuccessResult();
     }
 
     @Transactional
     @Override
     public Result insertContentCat(TbContentCategory cat) {
+        updateParentContentCat(cat);
+        complementContentCat(cat);
+        tbContentCategoryMapper.insertContentCat(cat);
+        return ResultFactory.getSuccessResult(cat);
+    }
+
+    public void updateParentContentCat(TbContentCategory cat) {
         TbContentCategory parentCat = new TbContentCategory();
         parentCat.setId(cat.getParentId());
         parentCat.setIsParent(TbContentCategory.ISPARENT_TRUE);
         parentCat.setUpdated(new Date());
         tbContentCategoryMapper.updateToChanged(parentCat);
+    }
+
+    public void complementContentCat(TbContentCategory cat) {
         long id = tbContentCategoryMapper.findMaxContentCatId() + 1;
         cat.setId(id);
         cat.setStatus(TbContentCategory.STATUS_NORMAL);
@@ -66,9 +79,8 @@ public class ContentServiceImpl implements ContentService {
         cat.setIsParent(TbContentCategory.ISPARENT_DEFAULT);
         cat.setCreated(new Date());
         cat.setUpdated(new Date());
-        tbContentCategoryMapper.insertContentCat(cat);
-        return ResultFactory.getSuccessResult(cat);
     }
+
 
     @Override
     public Result updateContentToChanged(TbContent tbContent) {
@@ -88,10 +100,18 @@ public class ContentServiceImpl implements ContentService {
         tbContentMapper.deleteContent(id);
         return ResultFactory.getSuccessResult();
     }
-
+    @Transactional
     @Override
     public Result deleteContentCat(long id) {
+        TbContentCategory deleteContentCat = tbContentCategoryMapper.findByPrimaryKey(id);
+        Long parentId = deleteContentCat.getParentId();
         tbContentCategoryMapper.deleteContentCat(id);
+        List<TbContentCategory> children = tbContentCategoryMapper.findByParentId(deleteContentCat.getParentId());
+        if(children.size()==0||children==null){
+            TbContentCategory parentContentCat = tbContentCategoryMapper.findByPrimaryKey(parentId);
+            parentContentCat.setIsParent(TbContentCategory.ISPARENT_DEFAULT);
+            tbContentCategoryMapper.updateToChanged(parentContentCat);
+        }
         return ResultFactory.getSuccessResult();
     }
 

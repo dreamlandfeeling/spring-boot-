@@ -1,7 +1,9 @@
 package com.xin.top.mapper;
 
 import com.xin.top.model.TbOrder;
+import org.springframework.stereotype.Component;
 
+@Component
 public interface TbOrderMapper {
     int deleteByPrimaryKey(String orderId);
 

@@ -1,6 +1,5 @@
 package com.xin.top.service.impl;
 
-import com.sun.xml.internal.txw2.output.ResultFactory;
 import com.xin.top.dto.Constant;
 import com.xin.top.dto.Result;
 import com.xin.top.dto.SearchResult;

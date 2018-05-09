@@ -2,6 +2,7 @@ package com.xin.manager.service;
 
 import com.github.pagehelper.PageInfo;
 import com.xin.manager.dto.PageBean;
+import com.xin.manager.dto.PageResult;
 import com.xin.manager.dto.Result;
 import com.xin.manager.model.TbItem;
 

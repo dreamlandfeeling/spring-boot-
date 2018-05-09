@@ -37,6 +37,13 @@ public class TbOrder {
 
     private Integer buyerRate;
 
+    public static final Integer PAYMENT_NO_PAY = 1;
+    public static final Integer PAYMENT_YES_PAY = 2;
+    public static final Integer PAYMENT_NO_SHIP = 3;
+    public static final Integer PAYMENT_YES_SHIP = 4;
+    public static final Integer PAYMENT_YES_TRANSACTION = 5;
+    public static final Integer PAYMENT_CLOSE_TRANSACTION = 6;
+
     public String getOrderId() {
         return orderId;
     }
@@ -171,5 +178,28 @@ public class TbOrder {
 
     public void setBuyerRate(Integer buyerRate) {
         this.buyerRate = buyerRate;
+    }
+
+    @Override
+    public String toString() {
+        return "TbOrder{" +
+                "orderId='" + orderId + '\'' +
+                ", payment='" + payment + '\'' +
+                ", paymentType=" + paymentType +
+                ", postFee='" + postFee + '\'' +
+                ", status=" + status +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", paymentTime=" + paymentTime +
+                ", consignTime=" + consignTime +
+                ", endTime=" + endTime +
+                ", closeTime=" + closeTime +
+                ", shippingName='" + shippingName + '\'' +
+                ", shippingCode='" + shippingCode + '\'' +
+                ", userId=" + userId +
+                ", buyerMessage='" + buyerMessage + '\'' +
+                ", buyerNick='" + buyerNick + '\'' +
+                ", buyerRate=" + buyerRate +
+                '}';
     }
 }

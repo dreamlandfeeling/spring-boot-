@@ -6,6 +6,8 @@ public interface Constant {
      */
     public static int SOLR_ROW = 20;
 
+    public static Long CONTENT_BIG_AD = 89L;
+
     public static String REDIS_LOGIN = "user:";
     public static String REDIS_CART = "cart:";
     public static int REDIS_LOGIN_TIME = 3600;

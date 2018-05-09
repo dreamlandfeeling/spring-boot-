@@ -12,8 +12,12 @@ public interface TbContentCategoryMapper {
             "#{created},#{updated})")
     int insertContentCat(TbContentCategory tbContentCategory);
 
+
+    @Select("select * from tb_content_category where id = #{id} and status =1")
+    TbContentCategory findByPrimaryKey(long id);
+
     @Select("select * from tb_content_category where parent_id = #{id} and status =1")
-    List<TbContentCategory> findByPrimaryKey(long id);
+    List<TbContentCategory> findByParentId(long id);
 
     @Select("select MAX(id) from tb_content_category")
     long findMaxContentCatId();

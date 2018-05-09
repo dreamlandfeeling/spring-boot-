@@ -26,6 +26,8 @@ public class TbItem {
 
     private Date updated;
 
+    private TbItemCat itemCat;
+
     public static final byte NORMAL = new Byte("1");
     public static final byte DELETE = new Byte("2");
 
@@ -120,4 +122,29 @@ public class TbItem {
         this.updated = updated;
     }
 
+    public TbItemCat getItemCat() {
+        return itemCat;
+    }
+
+    public void setItemCat(TbItemCat itemCat) {
+        this.itemCat = itemCat;
+    }
+
+    @Override
+    public String toString() {
+        return "TbItem{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", sellPoint='" + sellPoint + '\'' +
+                ", price=" + price +
+                ", num=" + num +
+                ", barcode='" + barcode + '\'' +
+                ", image='" + image + '\'' +
+                ", cid=" + cid +
+                ", status=" + status +
+                ", created=" + created +
+                ", updated=" + updated +
+                ", itemCat=" + itemCat +
+                '}';
+    }
 }

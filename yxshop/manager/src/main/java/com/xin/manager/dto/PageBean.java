@@ -88,4 +88,17 @@ public class PageBean<T> {
     public void setRows(List<T> rows) {
         this.rows = rows;
     }
+
+    @Override
+    public String toString() {
+        return "PageBean{" +
+                "currentPage=" + currentPage +
+                ", pageSize=" + pageSize +
+                ", total=" + total +
+                ", isMore=" + isMore +
+                ", totalPage=" + totalPage +
+                ", startIndex=" + startIndex +
+                ", rows=" + rows +
+                '}';
+    }
 }

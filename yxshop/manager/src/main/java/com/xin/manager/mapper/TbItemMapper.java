@@ -31,7 +31,10 @@ public interface TbItemMapper {
 
 
     @Results({
-            @Result(property = "sellPoint",column = "sell_point")
+            @Result(property = "sellPoint",column = "sell_point"),
+            @Result(property = "cid",column = "cid"),
+            @Result(property = "itemCat",column = "cid"
+                    ,one = @One(select = "com.xin.manager.mapper.TbItemCatMapper.selectByPrimaryKey"))
     })
     @SelectProvider(type = ItemSqlProvider.class,method = "queryByParams")
     List<TbItem> findByParams(Map<String,Object> params);

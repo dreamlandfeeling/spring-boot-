@@ -18,7 +18,7 @@ public interface TbItemCatMapper {
     @Select("select id,parent_id,name,is_parent from tb_item_cat where status=1 order by sort_order")
     List<TbItemCat> selectItemCat();
 
-    @Select("select name from tb_item_cat where id = #{id}")
+    @Select("select id,name from tb_item_cat where id = #{id}")
     TbItemCat selectByPrimaryKey(Long id);
 
 }

@@ -2,6 +2,7 @@ package com.xin.top.controller;
 
 import com.xin.top.dto.Constant;
 import com.xin.top.dto.Result;
+import com.xin.top.model.TbContent;
 import com.xin.top.model.TbUser;
 import com.xin.top.service.ContentService;
 import com.xin.top.utils.CookieUtils;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class IndexController extends BaseController{
@@ -20,11 +22,11 @@ public class IndexController extends BaseController{
 
     @GetMapping("/")
     public String index(Model model, HttpServletRequest request){
-        Result result = contentService.findAll();
-        Result num = contentService.findContentNum();
+        Result result = contentService.findContentToBigAd();
+        List<TbContent> list = (List<TbContent>) result.getData();
         model.addAttribute("username",getUserName(request));
-        model.addAttribute("contents",result.getData());
-        model.addAttribute("contentNum",num.getData());
+        model.addAttribute("contents",list);
+        model.addAttribute("contentNum",list.size());
         return "index";
     }
 }

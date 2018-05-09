@@ -32,6 +32,17 @@
       #{num,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{price,jdbcType=BIGINT}, #{totalFee,jdbcType=BIGINT}, 
       #{picPath,jdbcType=VARCHAR})
   </insert>
+  <insert id="insertByBatch" parameterType="com.xin.top.model.TbOrderItem" >
+    insert into tb_order_item (id, item_id, order_id,
+    num, title, price, total_fee,
+    pic_path)
+    values
+    <foreach collection="list" item="item" index="index"
+              separator=",">
+        (#{item.id},#{item.itemId},#{item.orderId},#{item.num},
+        #{item.title},#{item.price},#{item.totalFee},#{item.picPath})
+    </foreach>
+  </insert>
   <insert id="insertSelective" parameterType="com.xin.top.model.TbOrderItem" >
     insert into tb_order_item
     <trim prefix="(" suffix=")" suffixOverrides="," >

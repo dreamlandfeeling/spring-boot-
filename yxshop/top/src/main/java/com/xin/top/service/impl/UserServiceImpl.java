@@ -1,23 +1,24 @@
 package com.xin.top.service.impl;
 
-import com.xin.top.dto.Constant;
 import com.xin.top.dto.Result;
 import com.xin.top.mapper.TbUserMapper;
+import com.xin.top.mapper.TbUserShippingMapper;
 import com.xin.top.model.TbUser;
+import com.xin.top.model.TbUserShipping;
 import com.xin.top.service.UserService;
 import com.xin.top.utils.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import sun.security.provider.MD5;
 
 import java.util.Date;
-import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private TbUserMapper tbUserMapper;
+
+    @Autowired
+    private TbUserShippingMapper tbUserShippingMapper;
 
     @Override
     public Result checkUsername(String username) {
@@ -56,8 +57,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result findUserByAccountAndPssword(String account, String password) {
-        boolean result = false;
+    public Result findUserShippingAddress(Long id) {
+        TbUserShipping tbUserShipping = tbUserShippingMapper.selectByPrimaryKey(id);
+        System.err.println(tbUserShipping.getAddress());
+        return Result.ok(tbUserShipping);
+    }
+
+    @Override
+    public Result addUserShippingAddress(TbUserShipping tbUserShipping) {
+        tbUserShippingMapper.insert(tbUserShipping);
+        return Result.ok(tbUserShipping.getId());
+    }
+
+    @Override
+    public Result updateUserShippingAddress(TbUserShipping userShipping) {
+        tbUserShippingMapper.updateByPrimaryKey(userShipping);
+        return Result.ok(userShipping.getId());
+    }
+
+    @Override
+    public Result deleteUserShippingAddress(Long id) {
+        tbUserShippingMapper.deleteByPrimaryKey(id);
+        return Result.ok();
+    }
+
+    @Override
+    public Result findUserByUsernameAndPssword(String account, String password) {
         password = MD5Utils.md5(password);
         TbUser user = tbUserMapper.selectByUsername(account);
         if(user!=null){
@@ -65,23 +90,38 @@ public class UserServiceImpl implements UserService {
             if(user!=null){
                 return Result.ok(user);
             }
+        }else{
+            return Result.error("用户名不正确");
         }
-        user = tbUserMapper.selectByEmail(account);
+        return Result.error("密码不正确");
+    }
+
+    @Override
+    public Result findUserByPhoneAndPssword(String phone, String password) {
+        password = MD5Utils.md5(password);
+        TbUser user = tbUserMapper.selectByPhone(phone);
         if(user!=null){
-            user = tbUserMapper.selectByEmailAndPassword(account, password);
+            user = tbUserMapper.selectByPhoneAndPassword(phone, password);
             if(user!=null){
                 return Result.ok(user);
             }
+        }else{
+            return Result.error("手机号不正确");
         }
-        user = tbUserMapper.selectByPhone(account);
+        return Result.error("密码不正确");
+    }
+
+    @Override
+    public Result findUserByEmailAndPssword(String email, String password) {
+        password = MD5Utils.md5(password);
+        TbUser user = tbUserMapper.selectByEmail(email);
         if(user!=null){
-            user = tbUserMapper.selectByPhoneAndPassword(account, password);
+            user = tbUserMapper.selectByEmailAndPassword(email, password);
             if(user!=null){
                 return Result.ok(user);
             }
-        }
-        if(result==false){
-            return Result.error("手机/邮箱/用户名不正确");
+        }else{
+            return Result.error("邮箱不正确");
         }
         return Result.error("密码不正确");
     }

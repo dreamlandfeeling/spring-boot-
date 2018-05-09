@@ -8,7 +8,7 @@ import com.xin.manager.model.TbContentCategory;
 import java.util.List;
 
 public interface ContentService {
-    Result findByPrimaryKey(long id);
+    Result findByParentId(long id);
     Result insertContent(TbContent tbContent);
     Result insertContentCat(TbContentCategory tbContentCategory);
     Result updateContentToChanged(TbContent tbContent);

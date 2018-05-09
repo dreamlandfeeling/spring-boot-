@@ -12,9 +12,24 @@
 <link rel="stylesheet" type="text/css" href="/css/common.css?v=20160713" />
 <link rel="stylesheet" type="text/css" href="/css/all.css?v=20160713" />
 <link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css" />
+<script type="text/javascript" src="/js/jquery-1.5.1.min.js?v=20160713"></script>
 <title>出错了 -宜立方商城</title>
+<script type="text/javascript">
+    var time = 3;
+	$(function () {
+        next();
+    });
+    function next(){
+        time--;
+        if(time>0){
+            $('#totalSecond').html(time);
+        }else{
+            window.location.href="/";
+        }
+        setTimeout(next(),1000);
+    }
+</script>
 <#include "../commons/header.ftl" />
-<#include "../commons/mainmenu.ftl" />
 <body>
 	<div id="main">
 		<!----submenu------->
@@ -24,8 +39,8 @@
 					<img src="/images/error_img.jpg">
 						<h2>HTTP错误 404 - 文件或目录未找到</h2>
 						<p>
-							<span id="totalSecond">2</span>秒后自动跳转到首页，如不自动跳转，请按<a
-								href="http://www.e3mall.cn/">回到首页</a>
+							<span id="totalSecond">3</span>秒后自动跳转到首页，如不自动跳转，请按<a
+								href="http://localhost:8081/">回到首页</a>
 						</p>
 						<div class="clear"></div>
 				</div>

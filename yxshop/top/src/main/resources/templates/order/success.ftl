@@ -18,7 +18,7 @@
 <#include "/commons/shortcut.ftl" />
 <!--shortcut end-->
 <div class="logoPay">
-	<div class="logoPayBox"><a href="http://www.e3mall.cn"><img src="/images/logo.jpg" width="345" height="73" border="0"></a></div>
+	<div class="logoPayBox"><a href="/"><img src="/images/logo.jpg" width="345" height="73" border="0"></a></div>
 </div>
 <div class="pay_main">
 	<div class="pay_newbox">
@@ -29,7 +29,7 @@
             <span class="pay_word2">请您在提交订单后 <em>4小时</em> 内完成支付，超时订单会自动取消。    订单号：${orderId }</span>
         </div>
         <span class="pay_Rmoney">应付金额 : <em class="pay_price">￥
-        <fmt:formatNumber value="${payment}" maxFractionDigits="2" minFractionDigits="2" groupingUsed="true"/>
+        ${payment}
         </em></span>
     </div>   
 	<div class="pay_ment">

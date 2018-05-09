@@ -7,7 +7,7 @@
 <link href="/css/default.css" rel="stylesheet" />
 <link href="/js/jquery-easyui-1.4.1/themes/gray/easyui.css" rel="stylesheet"/>
 <link href="/js/jquery-easyui-1.4.1/themes/icon.css" rel="stylesheet"/>
-<script src="/js/common.js"  ></script>
+<script src="/js/common.js?v=1"  ></script>
 <script src="/js/jquery-easyui-1.4.1/jquery.min.js"  ></script>
 <script src="/js/jquery-easyui-1.4.1/jquery.easyui.min.js"  ></script>
 <script src="/js/jquery-easyui-1.4.1/locale/easyui-lang-zh_CN.js"  ></script>

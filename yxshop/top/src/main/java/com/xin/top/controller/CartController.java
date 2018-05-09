@@ -26,8 +26,9 @@ public class CartController extends BaseController{
     @GetMapping("/")
     public String cartList(Model model, HttpServletRequest request){
         TbUser user = getUser(request);
+        model.addAttribute("username",user.getUsername());
         String cart = redisTemplate.opsForValue().get(Constant.REDIS_CART + user.getId());
-        if(StringUtils.isNotBlank(cart)){
+        if (StringUtils.isNotBlank(cart)){
             List<TbItem> cartList= (List<TbItem>)JSON.parseArray(cart,TbItem.class);
             int totalPrice=0;
             for (TbItem tbItem : cartList) {
@@ -35,8 +36,9 @@ public class CartController extends BaseController{
             }
             model.addAttribute("totalPrice",totalPrice);
             model.addAttribute("cartList",cartList);
+        }else {
+            return "/cart/emptyCart";
         }
-        model.addAttribute("username",user.getUsername());
 
         return "/cart/cart";
     }

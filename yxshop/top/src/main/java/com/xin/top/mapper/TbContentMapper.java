@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 @Component
 public interface TbContentMapper {
-    List<TbContent> findAll();
+    List<TbContent> findContentByCategoryId(Long category_Id);
 
     long findContentNum();
 

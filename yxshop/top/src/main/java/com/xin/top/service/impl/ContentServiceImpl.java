@@ -1,5 +1,6 @@
 package com.xin.top.service.impl;
 
+import com.xin.top.dto.Constant;
 import com.xin.top.dto.Result;
 import com.xin.top.mapper.TbContentMapper;
 import com.xin.top.model.TbContent;
@@ -15,14 +16,9 @@ public class ContentServiceImpl implements ContentService {
     private TbContentMapper tbContentMapper;
 
     @Override
-    public Result findAll() {
-        List<TbContent> list = tbContentMapper.findAll();
+    public Result findContentToBigAd() {
+        List<TbContent> list = tbContentMapper.findContentByCategoryId(Constant.CONTENT_BIG_AD);
         return Result.ok(list);
     }
 
-    @Override
-    public Result findContentNum() {
-        long num = tbContentMapper.findContentNum();
-        return Result.ok(num);
-    }
 }

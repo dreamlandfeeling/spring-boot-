@@ -17,10 +17,6 @@ public class IndexController {
     }
 
 
-    //@RequestMapping(value="/{page}",method = RequestMethod.GET)
-    //public String pageIndex(@PathVariable String page){
-    //    return page;
-    //}
 
     @RequestMapping(value="/content/{page}",method = RequestMethod.GET)
     public String contentIndex(@PathVariable String page){

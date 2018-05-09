@@ -60,6 +60,7 @@
             $("#bigImage").attr("jqimg",src);
         }
         function formSubmit(){
+            var num = $("#number_${item.id?c}");
             if(num<0){
                 alert("商品数量需要大于0");
                 return;
