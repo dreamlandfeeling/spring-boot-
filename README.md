@@ -13,15 +13,15 @@
 ## 注意事项
 1.	前台登录需要redis,前台搜索需要solr
 2.	solr 地址https://github.com/dreamlandfeeling/solr 因为有70m所以独立出来好了
-3.	可暂时关闭solr功能  在solr索引库管理那有关闭solr.因为商品的增删改会同步更新索引，如果没有启动solr
-启动增删改会卡顿一会，并且程序内报错
+3.	可暂时关闭solr功能  在solr索引库管理那有关闭solr.因为商品的增删改会同步更新索引，如果没有启动solr,
+增删改会卡顿一会，并且程序内报错
 4.	图片上传路径默认IMG.UPLOAD.PATH=D:/test/
 
 
 ## 项目部署
 1.	修改application.properties 的数据库配置
-2.	前台部分需要redis  如果redis有密码也在application.properties中修改(默认windows下没有密码)
-3.  solr如果用我的话需要配置'CATALINA_HOME8_8100'环境变量 tomcat的根目录
+2.	前台部分需要redis,如果你的redis有密码,也在application.properties中修改(默认windows下没有密码)
+3.  如果用我的solr,需要配置'CATALINA_HOME8_8100'环境变量 tomcat的根目录
 修改solrhome:tomcat下webapps/solr/WEB-INF的web.xml,solrhome在solr项目里.
 再启动tomcat 路径http://localhost:8100/solr/index.html
 4.	运行application类或者命令行mvn spring-boot:run

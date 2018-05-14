@@ -1,6 +1,6 @@
 package com.xin.manager.utils;
 
-public interface Constant {
+public class Constant {
 
     public static String SOLR_STATUS = "stop";
 

@@ -1,11 +1,13 @@
 package com.xin.top.dto;
 
-public interface Constant {
+public class Constant {
     /**
      * 一次性查询商品数量限制
      */
     public static int SOLR_ROW = 20;
-
+    /**
+     * 大广告id
+     */
     public static Long CONTENT_BIG_AD = 89L;
 
     public static String REDIS_LOGIN = "user:";

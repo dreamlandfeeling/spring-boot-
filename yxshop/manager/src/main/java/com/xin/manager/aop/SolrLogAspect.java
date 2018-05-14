@@ -1,6 +1,7 @@
 package com.xin.manager.aop;
 
 import com.xin.manager.utils.Constant;
+import com.xin.manager.utils.HttpContextUtils;
 import com.xin.manager.utils.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,8 +23,7 @@ import java.util.Arrays;
 @Aspect
 @Component
 public class SolrLogAspect {
-    private String SOLR_START = Constant.SOLR_START;
-
+    private static String SOLR_START = Constant.SOLR_START;
 
 
     @Pointcut("execution(public * com.xin.manager.service.SolrService.*(..))")
@@ -31,9 +31,7 @@ public class SolrLogAspect {
 
     @Around("solrLog()")
     public void doBefore(ProceedingJoinPoint joinPoint) throws Throwable {
-        RequestAttributes ra = RequestContextHolder.getRequestAttributes();
-        ServletRequestAttributes sra = (ServletRequestAttributes) ra;
-        HttpServletRequest request = sra.getRequest();
+        HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         String solr = request.getParameter("solr");
         if(StringUtils.isNotBlank(solr)){
             SOLR_START = solr;
