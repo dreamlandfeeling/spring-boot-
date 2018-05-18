@@ -16,10 +16,9 @@ public class ItemController extends BaseController{
     private ItemService itemService;
 
     @GetMapping("/{id}")
-    public String findItem(@PathVariable long id, Model model,HttpServletRequest request){
+    public String findItem(@PathVariable long id, Model model){
         Result result = itemService.findItemByPrimaryKey(id);
         Result desc = itemService.findItemDescByPrimaryKey(id);
-        model.addAttribute("username",getUserName(request));
         model.addAttribute("item",result.getData());
         model.addAttribute("itemDesc",desc.getData());
         return "item";

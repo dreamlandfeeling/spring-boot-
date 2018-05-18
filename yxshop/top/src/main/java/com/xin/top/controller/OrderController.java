@@ -51,7 +51,6 @@ public class OrderController extends BaseController{
             model.addAttribute("totalPrice",totalPrice);
             model.addAttribute("cartList",orderList);
         }
-        model.addAttribute("username",user.getUsername());
         return "/order/order-cart";
     }
 
@@ -60,11 +59,10 @@ public class OrderController extends BaseController{
      * @param orderInfo
      * @param model
      * @param request
-     * @param response
      * @return
      */
     @PostMapping("/")
-    public String addOrder(OrderInfo orderInfo, Model model, HttpServletRequest request, HttpServletResponse response){
+    public String addOrder(OrderInfo orderInfo, Model model, HttpServletRequest request){
         TbUser user = getUser(request);
         TbOrder order = orderInfo.getOrder();
         order.setUserId(user.getId());
@@ -76,7 +74,6 @@ public class OrderController extends BaseController{
         TbOrder TbOrder = (TbOrder) result.getData();
         model.addAttribute("orderId",TbOrder.getOrderId());
         model.addAttribute("payment",TbOrder.getPayment());
-        model.addAttribute("username",user.getUsername());
         return "/order/success";
     }
 

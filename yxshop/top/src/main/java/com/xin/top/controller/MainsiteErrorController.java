@@ -13,8 +13,7 @@ public class MainsiteErrorController extends BaseController implements ErrorCont
     private static final String ERROR_PATH = "/error";
 
     @RequestMapping(value=ERROR_PATH)
-    public String handleError(Model model, HttpServletRequest request){
-        model.addAttribute("username",getUserName(request));
+    public String handleError(){
         return "error/exception";
     }
 

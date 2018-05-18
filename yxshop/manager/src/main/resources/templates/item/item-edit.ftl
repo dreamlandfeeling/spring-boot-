@@ -114,6 +114,11 @@
                         $("#itemEditWindow").window('close');
                         $("#itemList").datagrid("reload");
                     });
+                }else{
+                    $.messager.alert('提示',data.message, 'err', function () {
+                        $("#itemEditWindow").window('close');
+                        $("#itemList").datagrid("reload");
+                    });
                 }
             },
             dataType: "json"

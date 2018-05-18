@@ -1,5 +1,6 @@
 <!DOCTYPE html >
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
 <meta charset="UTF-8"/>
 <title>商城后台管理系统</title>
@@ -17,12 +18,21 @@
 		padding: 10px 10px 10px 10px;
 	}
 </style>
+<script>
+    function layout() {
+        if(confirm("是否退出")){
+            window.location.href="/quit";
+        }
+    }
+</script>
 </head>
 <body class="easyui-layout">
     <!-- 头部标题 -->
 	<div data-options="region:'north',border:false" style="height:60px; padding:5px; background:#F3F3F3"> 
 		<span class="northTitle">后台管理系统</span>
-	    <span class="loginInfo">登录用户：admin&nbsp;&nbsp;姓名：管理员&nbsp;&nbsp;角色：系统管理员</span>
+	    <span class="loginInfo">登录用户：<@shiro.principal property="name"/>&nbsp;&nbsp;
+            <a class="easyui-linkbutton" onclick="layout()">退出</a>
+        </span>
 	</div>
     <div data-options="region:'west',title:'菜单',split:true" style="width:180px;">
     	<ul id="menu" class="easyui-tree" style="margin-top: 10px;margin-left: 5px;">
@@ -37,8 +47,8 @@
          	<li>
          		<span>网站内容管理</span>
          		<ul>
-	         		<li data-options="attributes:{'url':'/content/content-category'}">内容分类管理</li>
-	         		<li data-options="attributes:{'url':'/content/content'}">内容管理</li>
+                    <li data-options="attributes:{'url':'/content/content-category'}">内容分类管理</li>
+					<@shiro.hasRole name="超级管理员"><li data-options="attributes:{'url':'/content/content'}">内容管理</li></@shiro.hasRole>
 	         	</ul>
          	</li>
             <#--<li>-->

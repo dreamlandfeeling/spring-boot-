@@ -7,6 +7,7 @@ import com.xin.manager.model.TbItem;
 import com.xin.manager.service.ItemService;
 import com.xin.manager.utils.FileUtils;
 import com.xin.manager.utils.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +38,7 @@ public class ItemController {
         Query query = new Query(params);
         PageBean pageBean = itemService.findItemByPage(query);
         List rows = pageBean.getRows();
+        //用于禁用子对象循环索引引用
         return JSON.toJSONString(pageBean, SerializerFeature.DisableCircularReferenceDetect);
     }
 
@@ -62,6 +64,7 @@ public class ItemController {
     }
 
     @PostMapping("/")
+    @RequiresPermissions("add")
     public String insertItem(TbItem tbItem,String desc){
         Result result = itemService.insert(tbItem,desc);
         return JSON.toJSONString(result);
@@ -76,7 +79,7 @@ public class ItemController {
     @PostMapping("/pic")
     public String uploadImg(@RequestParam("uploadFile") MultipartFile file, HttpServletRequest request) throws Exception {
         String fileName = file.getOriginalFilename();
-        fileName = UUID.randomUUID()+fileName.substring(fileName.indexOf("."));
+        fileName = UUID.randomUUID()+fileName.substring(fileName.lastIndexOf("."));
         byte[] bytes = file.getBytes();
         FileUtils.saveFile(bytes,fileName,filePath+fileLoadPath);
         UploadResult result = UploadResult.ok(fileLoadPath+fileName);
@@ -90,6 +93,7 @@ public class ItemController {
      * @return
      */
     @PutMapping("/{id}")
+    @RequiresPermissions("update")
     public String updateItem(TbItem tbItem){
         Result result = itemService.update(tbItem);
         return JSON.toJSONString(result);
@@ -100,6 +104,7 @@ public class ItemController {
      * @return
      */
     @PatchMapping("/{id}")
+    @RequiresPermissions("delete")
     public String updateToChanged(TbItem tbItem){
         Result result = itemService.updateToChanged(tbItem);
         return JSON.toJSONString(result);
@@ -107,18 +112,19 @@ public class ItemController {
 
 
     @DeleteMapping("/{id}")
+    @RequiresPermissions("delete")
     public String deleteItem(@PathVariable("id") long id){
         Result result = itemService.delete(id);
         return JSON.toJSONString(result);
     }
     @DeleteMapping("/batch")
+    @RequiresPermissions("delete")
     public String deleteItems(@RequestBody String ids){
         ids = StringUtils.resolveJson(ids);
         String[] split = ids.split("%2C");
         Long[] longs = new Long[split.length];
         for (int i = 0; i < split.length; i++) {
             longs[i] = Long.valueOf(split[i]);
-            System.err.println(longs[i]);
         }
         Result result = itemService.batchDelete(longs);
         return JSON.toJSONString(result);

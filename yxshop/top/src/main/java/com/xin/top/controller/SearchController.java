@@ -20,11 +20,9 @@ public class SearchController extends BaseController{
     @Autowired
     private SearchService searchService;
     @GetMapping("/")
-    public String search(String keyword, @RequestParam(defaultValue = "1") int page, Model model,
-                         HttpServletRequest request) throws IOException, SolrServerException {
+    public String search(String keyword, @RequestParam(defaultValue = "1") int page, Model model) throws IOException, SolrServerException {
         Result result = searchService.search(keyword,page);
         SearchResult search = (SearchResult) result.getData();
-        model.addAttribute("username",getUserName(request));
         model.addAttribute("keyword",keyword);
         model.addAttribute("search",search);
         model.addAttribute("itemList",search.getData());

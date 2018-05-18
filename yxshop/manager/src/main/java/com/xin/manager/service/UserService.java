@@ -1,7 +1,9 @@
 package com.xin.manager.service;
 
 import com.xin.manager.model.TbUser;
+import com.xin.manager.model.User;
 
 public interface UserService {
-    TbUser selectByUsernameAndPassword(String username,  String password);
+
+    User findUserByUserName(String username);
 }

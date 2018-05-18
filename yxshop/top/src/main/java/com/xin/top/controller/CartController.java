@@ -26,33 +26,25 @@ public class CartController extends BaseController{
     @GetMapping("/")
     public String cartList(Model model, HttpServletRequest request){
         TbUser user = getUser(request);
-        model.addAttribute("username",user.getUsername());
         String cart = redisTemplate.opsForValue().get(Constant.REDIS_CART + user.getId());
+        List<TbItem> cartList;
+        int totalPrice=0;
         if (StringUtils.isNotBlank(cart)){
-            List<TbItem> cartList= (List<TbItem>)JSON.parseArray(cart,TbItem.class);
-            int totalPrice=0;
+            cartList= JSON.parseArray(cart,TbItem.class);
             for (TbItem tbItem : cartList) {
                 totalPrice += tbItem.getPrice()*tbItem.getNum();
             }
-            model.addAttribute("totalPrice",totalPrice);
-            model.addAttribute("cartList",cartList);
         }else {
-            return "/cart/emptyCart";
+            cartList = new ArrayList<>();
         }
-
+        model.addAttribute("totalPrice",totalPrice);
+        model.addAttribute("cartList",cartList);
         return "/cart/cart";
     }
 
     @PostMapping("/")
     public String addItemToCart(long productId,int num,Model model, HttpServletRequest request){
-        TbUser user = getUser(request);
-        //if(user==null){
-        //    String requestURL = request.getHeader("Referer");
-        //    System.err.println(requestURL);
-        //    return "redirect:/user/login?redirect="+requestURL;
-        //}
         addItemToCart(productId,num,request);
-        model.addAttribute("username",user.getUsername());
         return "/cart/cartSuccess";
     }
 
@@ -78,7 +70,7 @@ public class CartController extends BaseController{
             }
             redisTemplate.opsForValue().set(Constant.REDIS_CART+user.getId(),JSON.toJSONString(cartList));
         }
-        return "";
+        return JSON.toJSONString(Result.ok());
     }
 
     @ResponseBody
@@ -114,7 +106,7 @@ public class CartController extends BaseController{
         Result item = itemService.findItemByPrimaryKeyToCart(productId,num);
         TbItem tbItem = (TbItem)item.getData();
         if(StringUtils.isNotBlank(cart)){
-            cartList = (List<TbItem>)JSON.parseArray(cart,TbItem.class);
+            cartList = JSON.parseArray(cart,TbItem.class);
             for (TbItem temp : cartList) {
                 if(temp.getId().longValue() == tbItem.getId().longValue()){
                     temp.setNum(temp.getNum()+num);

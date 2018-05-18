@@ -3,6 +3,7 @@ package com.xin.manager.mapper;
 import com.xin.manager.model.TbItem;
 import com.xin.manager.sql.ItemSqlProvider;
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.params.Params;
 

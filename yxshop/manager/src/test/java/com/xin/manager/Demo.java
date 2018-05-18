@@ -1,7 +1,9 @@
 package com.xin.manager;
 
 import com.xin.manager.controller.ItemController;
+import com.xin.manager.utils.MD5Utils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
@@ -13,14 +15,8 @@ public class Demo {
     }
     @Test
     public void fun() throws IllegalAccessException {
-        po p = new po(1);
-        Field[] fields = p.getClass().getDeclaredFields();
-        for (Field field : fields) {
-            if(field.get(p)==null){
-                System.out.println("是空的");
-            }
-        }
-        System.out.println();
+        Object result = MD5Utils.md5("common");
+        System.out.println(result);
     }
 
     class po{

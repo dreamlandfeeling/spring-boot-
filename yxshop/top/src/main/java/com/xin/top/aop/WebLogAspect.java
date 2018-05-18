@@ -2,6 +2,7 @@ package com.xin.top.aop;
 
 import com.xin.top.dto.Constant;
 import com.xin.top.utils.CookieUtils;
+import com.xin.top.utils.HttpContextUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
@@ -32,8 +33,7 @@ public class WebLogAspect {
     public void doBefore(JoinPoint joinPoint) throws Throwable {
         startTime.set(System.currentTimeMillis());
         // 接收到请求，记录请求内容
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
+        HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
 
         // 记录下请求内容
         logger.info("URL : " + request.getRequestURL().toString());

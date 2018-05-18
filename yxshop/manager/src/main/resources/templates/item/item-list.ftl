@@ -1,4 +1,13 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org">
 <input id="search" class="easyui-searchbox" style="width:250px,height:100px" data-options="searcher:search,prompt:'请输入搜索内容'"></input>
+<div id="toolbar" style="height:auto">
+   <@shiro.hasPermission name="add"><a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="append()">新增</a></@shiro.hasPermission>
+   <@shiro.hasPermission name="update"><a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" onclick="update()">编辑</a></@shiro.hasPermission>
+   <@shiro.hasPermission name="delete"><a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',plain:true" onclick="remove()">删除</a></@shiro.hasPermission>
+   <@shiro.hasPermission name="delete"><a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="downItem()">下架</a></@shiro.hasPermission>
+   <@shiro.hasPermission name="delete"><a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="upItem()">上架</a></@shiro.hasPermission>
+</div>
 <table class="easyui-datagrid" id="itemList" title="商品列表"
        data-options="singleSelect:false,collapsible:true,pagination:true,url:'/item/',method:'get',pageSize:30,toolbar:toolbar">
     <thead>
@@ -22,6 +31,7 @@
      data-options="modal:true,closed:true,iconCls:'icon-save',href:'/item/item-edit'"
      style="width:80%;height:80%;padding:10px;">
 </div>
+
 <script>
     function formatItemCatName(val,row,index){
         return row.itemCat.name;
@@ -49,149 +59,106 @@
         return ids;
     }
 
-    var toolbar = [{
-        text: '新增',
-        iconCls: 'icon-add',
-        handler: function () {
-            $(".tree-title:contains('新增商品')").parent().click();
+    var toolbar = $("toolbar");
+    function append() {
+        $(".tree-title:contains('新增商品')").parent().click();
+    }
+    function update() {
+        var ids = getSelectionsIds();
+        if (ids.length == 0) {
+            $.messager.alert('提示', '必须选择一个商品才能编辑!');
+            return;
         }
-    }, {
-        text: '编辑',
-        iconCls: 'icon-edit',
-        handler: function () {
-            var ids = getSelectionsIds();
-            if (ids.length == 0) {
-                $.messager.alert('提示', '必须选择一个商品才能编辑!');
-                return;
-            }
-            if (ids.indexOf(',') > 0) {
-                $.messager.alert('提示', '只能选择一个商品!');
-                return;
-            }
+        if (ids.indexOf(',') > 0) {
+            $.messager.alert('提示', '只能选择一个商品!');
+            return;
+        }
 
-            $("#itemEditWindow").window({
-                onLoad: function () {
-                    //回显数据
-                    var data = $("#itemList").datagrid("getSelections")[0];
-                    data.priceView = E3.formatPrice(data.price);
-                    $("#itemeEditForm").form("load", data);
-                    // 加载商品描述
-                    $.getJSON('/item/desc/' + data.id, function (_data) {
-                        if (_data.status == 200) {
-                            //UM.getEditor('itemeEditDescEditor').setContent(_data.data.itemDesc, false);
-                            itemEditEditor.html(_data.data.itemDesc);
+        $("#itemEditWindow").window({
+            onLoad: function () {
+                //回显数据
+                var data = $("#itemList").datagrid("getSelections")[0];
+                data.priceView = E3.formatPrice(data.price);
+                $("#itemeEditForm").form("load", data);
+                // 加载商品描述
+                $.getJSON('/item/desc/' + data.id, function (_data) {
+                    if (_data.status == 200) {
+                        //UM.getEditor('itemeEditDescEditor').setContent(_data.data.itemDesc, false);
+                        itemEditEditor.html(_data.data.itemDesc);
+                    }
+                });
+                E3.init({
+                    "pics": data.image,
+                    "cid": data.cid,
+                    fun: function (node) {
+                        E3.changeItemParam(node, "itemeEditForm");
+                    }
+                });
+            }
+        }).window("open");
+    }
+    function remove(){
+        var ids = getSelectionsIds();
+        if (ids.length == 0) {
+            $.messager.alert('提示', '未选中商品!');
+            return;
+        }
+        $.messager.confirm('确认', '确定删除ID为 ' + ids + ' 的商品吗？', function (r) {
+            if (r) {
+                var params = {"ids": ids};
+                $.ajax({
+                    type: "delete", url: "/item/batch", data: params, success: function (data) {
+                        if (data.status == 200) {
+                            $.messager.alert('提示', '删除商品成功!', undefined, function () {
+                                $("#itemList").datagrid("reload")
+                            });
                         }
-                    });
-
-                    //加载商品规格
-                    // $.getJSON('/rest/item/param/item/query/' + data.id, function (_data) {
-                    //     if (_data && _data.status == 200 && _data.data && _data.data.paramData) {
-                    //         $("#itemeEditForm .params").show();
-                    //         $("#itemeEditForm [name=itemParams]").val(_data.data.paramData);
-                    //         $("#itemeEditForm [name=itemParamId]").val(_data.data.id);
-                    //
-                    //         //回显商品规格
-                    //         var paramData = JSON.parse(_data.data.paramData);
-                    //
-                    //         var html = "<ul>";
-                    //         for (var i in paramData) {
-                    //             var pd = paramData[i];
-                    //             html += "<li><table>";
-                    //             html += "<tr><td colspan=\"2\" class=\"group\">" + pd.group + "</td></tr>";
-                    //
-                    //             for (var j in pd.params) {
-                    //                 var ps = pd.params[j];
-                    //                 html += "<tr><td class=\"param\"><span>" + ps.k + "</span>: </td><td><input autocomplete=\"off\" type=\"text\" value='" + ps.v + "'/></td></tr>";
-                    //             }
-                    //
-                    //             html += "</li></table>";
-                    //         }
-                    //         html += "</ul>";
-                    //         $("#itemeEditForm .params td").eq(1).html(html);
-                    //     }
-                    // });
-
-                    E3.init({
-                        "pics": data.image,
-                        "cid": data.cid,
-                        fun: function (node) {
-                            E3.changeItemParam(node, "itemeEditForm");
-                        }
-                    });
-                }
-            }).window("open");
-        }
-    }, {
-        text: '删除',
-        iconCls: 'icon-cancel',
-        handler: function () {
-            var ids = getSelectionsIds();
-            if (ids.length == 0) {
-                $.messager.alert('提示', '未选中商品!');
-                return;
+                    },dataType:"json"
+                });
             }
-            $.messager.confirm('确认', '确定删除ID为 ' + ids + ' 的商品吗？', function (r) {
-                if (r) {
-                    var params = {"ids": ids};
-                    $.ajax({
-                        type: "delete", url: "/item/batch", data: params, success: function (data) {
-                            if (data.status == 200) {
-                                $.messager.alert('提示', '删除商品成功!', undefined, function () {
-                                    $("#itemList").datagrid("reload")
-                                });
-                            }
-                        },dataType:"json"
-                    });
-                }
+        });
+    }
+function downItem() {
+    var ids = getSelectionsIds();
+    if (ids.length == 0) {
+        $.messager.alert('提示', '未选中商品!');
+        return;
+    }
+    $.messager.confirm('确认', '确定下架ID为 ' + ids + ' 的商品吗？', function (r) {
+        if (r) {
+            var params = {"ids": ids,"status":2};
+            $.ajax({
+                type: "patch", url: "/item/"+ids, data: params, success: function (data) {
+                    if (data.status == 200) {
+                        $.messager.alert('提示', '下架商品成功!', undefined, function () {
+                            $("#itemList").datagrid("reload");
+                        });
+                    }
+                },dataType:"json"
             });
         }
-    }, '-', {
-        text: '下架',
-        iconCls: 'icon-remove',
-        handler: function () {
-            var ids = getSelectionsIds();
-            if (ids.length == 0) {
-                $.messager.alert('提示', '未选中商品!');
-                return;
-            }
-            $.messager.confirm('确认', '确定下架ID为 ' + ids + ' 的商品吗？', function (r) {
-                if (r) {
-                    var params = {"ids": ids,"status":2};
-                    $.ajax({
-                        type: "patch", url: "/item/"+ids, data: params, success: function (data) {
-                            if (data.status == 200) {
-                                $.messager.alert('提示', '下架商品成功!', undefined, function () {
-                                    $("#itemList").datagrid("reload");
-                                });
-                            }
-                        },dataType:"json"
-                    });
-                }
+    });
+}
+function upItem() {
+    var ids = getSelectionsIds();
+    if (ids.length == 0) {
+        $.messager.alert('提示', '未选中商品!');
+        return;
+    }
+    $.messager.confirm('确认', '确定上架ID为 ' + ids + ' 的商品吗？', function (r) {
+        if (r) {
+            var params = {"ids": ids,"status":1};
+            $.ajax({
+                type: "patch", url: "/item/"+ids, data: params, success: function (data) {
+                    if (data.status == 200) {
+                        $.messager.alert('提示', '上架商品成功!', undefined, function () {
+                            $("#itemList").datagrid("reload");
+                        });
+                    }
+                },dataType:"json"
             });
         }
-    }, {
-        text: '上架',
-        iconCls: 'icon-remove',
-        handler: function () {
-            var ids = getSelectionsIds();
-            if (ids.length == 0) {
-                $.messager.alert('提示', '未选中商品!');
-                return;
-            }
-            $.messager.confirm('确认', '确定上架ID为 ' + ids + ' 的商品吗？', function (r) {
-                if (r) {
-                    var params = {"ids": ids,"status":1};
-                    $.ajax({
-                        type: "patch", url: "/item/"+ids, data: params, success: function (data) {
-                            if (data.status == 200) {
-                                $.messager.alert('提示', '上架商品成功!', undefined, function () {
-                                    $("#itemList").datagrid("reload");
-                                });
-                            }
-                        },dataType:"json"
-                    });
-                }
-            });
-        }
-    }];
+    });
+}
 </script>
+</html>

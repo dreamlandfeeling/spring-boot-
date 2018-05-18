@@ -43,7 +43,7 @@ public class ItemParamServiceImpl implements ItemParamService {
         tbItemParamMapper.insert(TbItemParam);
         return ResultFactory.getSuccessResult();
     }
-    @Transactional
+
     @Override
     public Result update(TbItemParam TbItemParam) {
         TbItemParam.setUpdated(new Date());

@@ -129,7 +129,7 @@ public class ItemServiceImpl implements ItemService {
     public Result findItemDescByPrimaryKey(Long id) {
         TbItemDesc desc = tbItemDescMapper.findItemDescByPrimaryKey(id);
         if(desc == null){
-            ResultFactory.getFailResult(400,"商品详细未填写");
+            return ResultFactory.getFailResult(400,"商品详细未填写");
         }
         return ResultFactory.getSuccessResult(desc);
     }

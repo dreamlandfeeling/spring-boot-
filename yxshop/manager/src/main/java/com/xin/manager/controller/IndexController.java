@@ -17,7 +17,6 @@ public class IndexController {
     }
 
 
-
     @RequestMapping(value="/content/{page}",method = RequestMethod.GET)
     public String contentIndex(@PathVariable String page){
         return "/content/"+page;

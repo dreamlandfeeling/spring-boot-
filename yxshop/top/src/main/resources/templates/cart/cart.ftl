@@ -147,10 +147,10 @@
 	
 	</div>
       <div class="cartOrderCount" id="orderCount">
-        <div class="cartButtons">
-          <input type="button" value="删除选中的商品" onclick="javascript:cartDelMore();" class="cartclear">
-          <input type="button" value="清空购物车" onclick="javascript:delAll('273fe391cb449af4');" class="cartclear">
-        </div>
+        <#--<div class="cartButtons">-->
+          <#--<input type="button" value="删除选中的商品" onclick="javascript:cartDelMore();" class="cartclear">-->
+          <#--<input type="button" value="清空购物车" onclick="javascript:delAll('273fe391cb449af4');" class="cartclear">-->
+        <#--</div>-->
         <div class="cartTotalItem">
           <span id="all_shopePrice">（不含运费）</span>&nbsp;&nbsp;&nbsp;&nbsp;商品总计：
           <span class="cartPrice" >¥<span id="totalMoney">${totalPrice!?c}</span>

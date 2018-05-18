@@ -59,7 +59,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result findUserShippingAddress(Long id) {
         TbUserShipping tbUserShipping = tbUserShippingMapper.selectByPrimaryKey(id);
-        System.err.println(tbUserShipping.getAddress());
         return Result.ok(tbUserShipping);
     }
 

@@ -4,6 +4,7 @@
 </div>
 <div>
     <a class="easyui-linkbutton" onclick="importItems()">一键导入商品数据到索引库</a>
+    <a class="easyui-linkbutton" onclick="deleteItems()">清空索引库</a>
 </div>
 <script type="text/javascript">
 
@@ -30,5 +31,14 @@
                 $.messager.alert('提示', 'solr关闭！');
             }
         },"json");
+    }
+    function deleteItems() {
+        if(confirm("是否删除所有索引")){
+            $.ajax({type:"delete",url:"/solr/", success:function (data) {
+                if (data.status == 200) {
+                    $.messager.alert('提示', '清理完毕！');
+                }
+            },dataType:"json"});
+        }
     }
 </script>

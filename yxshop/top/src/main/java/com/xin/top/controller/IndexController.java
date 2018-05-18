@@ -21,10 +21,9 @@ public class IndexController extends BaseController{
     private ContentService contentService;
 
     @GetMapping("/")
-    public String index(Model model, HttpServletRequest request){
+    public String index(Model model){
         Result result = contentService.findContentToBigAd();
         List<TbContent> list = (List<TbContent>) result.getData();
-        model.addAttribute("username",getUserName(request));
         model.addAttribute("contents",list);
         model.addAttribute("contentNum",list.size());
         return "index";
