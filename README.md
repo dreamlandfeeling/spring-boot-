@@ -24,7 +24,7 @@
 3.  如果用我的solr,需要配置'CATALINA_HOME8_8100'环境变量 tomcat的根目录
 修改solrhome:tomcat下webapps/solr/WEB-INF的web.xml,solrhome在solr项目里.
 再启动tomcat 路径http://localhost:8100/solr/index.html
-4.	运行application类或者命令行mvn spring-boot:run
+4.	运行application类或者在项目根目录使用命令行mvn spring-boot:run
 5.	访问路径http://localhost:8080 和 http://localhost:8081
 
 数据库里的商品图片路径都使访问不到的。。你自己添加商品把
@@ -38,9 +38,9 @@
 如果没有solr 就跳过搜索部分了，在地址栏输入localhost:8081/item/商品id
 
 ## shiro权限
-权限上加的暂时只有商品的增删改和内容管理的可见不可见
-默认admin admin	拥有全部权限
-普通commom common  只有商品增加   
+1.	权限上加的暂时只有商品的增删改和内容管理的可见不可见
+2.	默认admin admin	拥有全部权限
+3.	普通commom common  只有商品增加   
 
 ## 其他
 该项目原本是在视频中学习的，学了springboot后，就找了以前ssm项目给的静态资源和sql语句再自己重新写了一遍,再看情况加些功能
